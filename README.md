@@ -21,7 +21,7 @@ BUILDING COMETD.NET
 -------------------
 
 This project was built on Visual Studio 2010 with [NuGet Package Manager](http://visualstudiogallery.msdn.microsoft.com/27077b70-9dad-4c64-adcf-c7cf6bc9970c).
-It is set to compile with **.NET Framework 3.5** with 2 external libraries: [**log4net**](http://nuget.org/packages/log4net/1.2.10) and [**Newtonsoft.Json**](http://nuget.org/packages/Newtonsoft.Json/4.5.11).
+It is set to compile with **.NET Framework 3.5** with 2 external libraries: [log4net](http://nuget.org/packages/log4net/1.2.10) and [Newtonsoft.Json](http://nuget.org/packages/Newtonsoft.Json/4.5.11).
 
 USAGE
 -----
@@ -101,7 +101,7 @@ CONFIGURATION AND RUN
 
 Updates your Salesforce account information (username, password) into the configuration file: `Salesforce.StreamingAPI\App.config`
 
-* You should add your Internet IP into Salesforce trusted IP ranges (**Setup -> Administration Setup -> Security Controls -> Network Access**)
+* You should add your Internet IP into Salesforce trusted IP ranges **(Setup -> Administration Setup -> Security Controls -> Network Access)**
 to make your password works with this sample.
 
 Finally, builds and runs the example, then watches the `Salesforce.StreamingAPI\bin\Debug\*.log` files (`TopicMessages`, `ApiClient`)
