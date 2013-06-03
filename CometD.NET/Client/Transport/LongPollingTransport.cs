@@ -167,6 +167,7 @@ namespace CometD.Client.Transport
 				request.AllowWriteStreamBuffering = true;	// Is needed for KeepAlive
 				request.AllowAutoRedirect = true;
 				request.AutomaticDecompression = DecompressionMethods.GZip | DecompressionMethods.Deflate;
+				request.Proxy = null;	// Skips the proxy auto-detect step (~ 7s)
 
 				// Setups HTTP request headers
 				this.ApplyRequestHeaders(request);

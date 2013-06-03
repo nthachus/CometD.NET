@@ -231,7 +231,37 @@ namespace CometD.Client.Transport
 					}
 
 					if (null != exchange._listener)
+					{
+						// Fixes the received messages before processing
+						string requestChannel = null;
+						string requestUrl, baseUrl;
+						foreach (IMutableMessage msg in messages)
+						{
+							if (String.IsNullOrEmpty(msg.Channel))
+							{
+								if (null == requestChannel)
+								{
+									requestUrl = exchange._request.RequestUri.ToString();// Absolute request URI
+
+									baseUrl = exchange._transport.Url;
+									baseUrl = (null == baseUrl) ? String.Empty : baseUrl.Trim();
+
+									if (requestUrl.StartsWith(baseUrl, StringComparison.OrdinalIgnoreCase))
+									{
+										requestChannel = requestUrl.Substring(baseUrl.Length).Trim('\\', '/');
+										requestChannel = Channel.Meta.TrimEnd('\\', '/') + "/" + requestChannel;
+									}
+									else
+										requestChannel = String.Empty;
+								}
+
+								if (!String.IsNullOrEmpty(requestChannel))
+									msg.Channel = requestChannel;
+							}
+						}
+
 						exchange._listener.OnMessages(messages);
+					}
 				}
 				else
 				{

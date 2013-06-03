@@ -163,6 +163,7 @@ namespace Salesforce.StreamingAPI
 			req.AllowWriteStreamBuffering = true;	// Is needed for KeepAlive
 			req.AllowAutoRedirect = true;
 			req.AutomaticDecompression = DecompressionMethods.GZip | DecompressionMethods.Deflate;
+			req.Proxy = null;	// Skips the proxy auto-detect step (~ 7s)
 
 			if (null != accessToken && (accessToken = accessToken.Trim()).Length > 0)
 				req.Headers[HttpRequestHeader.Authorization] = "OAuth " + accessToken;

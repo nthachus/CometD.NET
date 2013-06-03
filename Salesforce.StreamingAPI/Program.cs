@@ -24,6 +24,7 @@ namespace Salesforce.StreamingAPI
 			AppDomain.CurrentDomain.UnhandledException += OnCurrentDomainUnhandledException;
 			// Set server certificate validation callback
 			ServicePointManager.ServerCertificateValidationCallback = ValidateRemoteServerCertificate;
+			ServicePointManager.Expect100Continue = false;	// TODO: Turning HttpWebRequest performance
 
 			IList<TestAccount> accounts = TestAccounts;
 			if (null != accounts && accounts.Count > 0)
@@ -38,24 +39,25 @@ namespace Salesforce.StreamingAPI
 					IStreamingAPIClient streamingClient = new StreamingAPIClient(account.UserName, account.Password);
 
 					Console.WriteLine("Handshake with client: {0}", account.UserName);
-					if (streamingClient.Handshake(60000))// 60 seconds timeout
+					/*if (*/
+					streamingClient.Handshake(60000);// 60 seconds timeout
+					//{
+					foreach (string topicName in account.PushTopics)
 					{
-						foreach (string topicName in account.PushTopics)
+						Console.WriteLine("Subscribes push-topic: {0} with listener2", topicName);
+						streamingClient.SubscribeTopic(topicName,
+							new CallbackMessageListener<IStreamingAPIClient>(OnMessageReceived2, streamingClient));
+
+						if (account.PushTopics.Count < 2)
 						{
-							Console.WriteLine("Subscribes push-topic: {0} with listener2", topicName);
+							Console.WriteLine("Subscribes push-topic: {0} with listener1", topicName);
 							streamingClient.SubscribeTopic(topicName,
-								new CallbackMessageListener<IStreamingAPIClient>(OnMessageReceived2, streamingClient));
-
-							if (account.PushTopics.Count < 2)
-							{
-								Console.WriteLine("Subscribes push-topic: {0} with listener1", topicName);
-								streamingClient.SubscribeTopic(topicName,
-									new CallbackMessageListener<IStreamingAPIClient>(OnMessageReceived, streamingClient));
-							}
+								new CallbackMessageListener<IStreamingAPIClient>(OnMessageReceived, streamingClient));
 						}
-
-						streamingClients[account] = streamingClient;
 					}
+
+					streamingClients[account] = streamingClient;
+					//}
 				}
 
 				Console.WriteLine("Press Enter to exit...");
