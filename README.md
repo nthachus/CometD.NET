@@ -106,3 +106,9 @@ to make your password works with this sample.
 
 Finally, builds and runs the example, then watches the `Salesforce.StreamingAPI\bin\Debug\*.log` files (`TopicMessages`, `ApiClient`)
 to see all pushed messages that was received from your **Salesforce Streaming API**.
+
+DONATIONS
+---------
+
+[![](https://www.paypalobjects.com/en_US/i/btn/btn_donate_LG.gif)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=46LYJ44VJXAB6)
+Thank you!
